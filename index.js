@@ -7,14 +7,13 @@ const shell = require('shelljs');
 
 prog
   .version('0.0.1')
-  // you specify arguments using .argument()
-  // 'app' is required, 'env' is optional
+
   .command('new', 'Create a new project')
   .action(async (args, options, logger) => {
     await truffleBox.unbox('https://github.com/BelfordZ/emerald-starter-kit.git', process.cwd(), {logger})
     logger.info('New Emerald project created');
   })
-  //
+
   .command('wallet', 'Boot Emerald Wallet')
   .command('explorer', 'Boot Explorer')
   .command('testrpc', 'Run testnet for ethereum classic')
@@ -23,7 +22,7 @@ prog
       logger.error('failed to launch testrpc')
     };
   })
-  //
+
   .command('deploy', 'Deploy solidity to network')
   .action((args, options, logger) => {
     migrate.run({working_directory: process.cwd()}, (err) => {
