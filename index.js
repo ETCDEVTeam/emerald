@@ -15,6 +15,9 @@ prog
   })
 
   .command('wallet', 'Boot Emerald Wallet')
+  .action((args, options, logger) => {
+    shell.exec('open EmeraldWallet.app');
+  })
   .command('explorer', 'Boot Explorer')
   .command('testrpc', 'Run testnet for ethereum classic')
   .action((args, options, logger) => {
