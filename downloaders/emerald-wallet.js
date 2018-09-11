@@ -10,6 +10,7 @@ Git.Clone('https://github.com/ETCDEVTeam/emerald-wallet.git', p).then(() => {
   shell.cd(p);
   shell.exec('git checkout feature/protocol-flow');
   shell.exec('npm install');
+  shell.exec('npm run getemerald');
   shell.exec('npm run dist');
   console.log('done cloning');
 }).catch((e) => {
