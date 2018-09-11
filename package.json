@@ -15,12 +15,14 @@
   "dependencies": {
     "caporal": "^0.10.0",
     "dmg": "^0.1.0",
+    "lerna": "^3.3.0",
     "nodegit": "^0.22.2",
     "request": "^2.88.0",
     "shelljs": "^0.8.2",
     "tar": "^4.4.6",
     "truffle-box": "^1.0.7",
     "truffle-config": "^1.0.6",
-    "truffle-core": "^4.1.14"
+    "truffle-core": "^4.1.14",
+    "yarn": "^1.9.4"
   }
 }

@@ -9,7 +9,8 @@ prog
 
   .command('new', 'Create a new project')
   .action(async (args, options, logger) => {
-    await truffleBox.unbox('https://github.com/BelfordZ/emerald-starter-kit.git', process.cwd(), {logger})
+    const dir = (args.length > 0) ? args[0] : process.cwd();
+    await truffleBox.unbox('https://github.com/BelfordZ/emerald-starter-kit.git', dir, {logger})
     logger.info('New Emerald project created');
   })
 
@@ -21,7 +22,7 @@ prog
   .command('explorer', 'Boot Explorer')
   .action((args, options, logger) => {
     shell.cd(`${__dirname}/emerald-tool`);
-    shell.exec('yarn start:browser');
+    shell.exec(`${__dirname}/node_modules/.bin/yarn start:browser`);
     if (shell.exec('open http://localhost:3000/blocks') !== 0) {
       logger.error('failed to launch explorer')
     };
