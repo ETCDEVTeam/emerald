@@ -22,7 +22,7 @@ prog
   .action((args, options, logger) => {
     shell.cd(`${__dirname}/emerald-tool`);
     shell.exec('yarn start:browser');
-    if (shell.exec('open http://localhost:3000') !== 0) {
+    if (shell.exec('open http://localhost:3000/blocks') !== 0) {
       logger.error('failed to launch explorer')
     };
   })
