@@ -1,21 +1,15 @@
-const request = require('request');
-const fs = require('fs');
-const file = fs.createWriteStream('EmeraldWallet.dmg');
 const shell = require('shelljs');
-const dmg = require('dmg');
+const Git = require("nodegit");
 
 console.log('downloading and unpacking emerald-wallet please wait...');
 
-request('https://github.com/ETCDEVTeam/emerald-wallet/releases/download/v1.0.0/EmeraldWallet-mac-v1.0.0-62c64d5.dmg')
-  .pipe(file)
-  .on('finish', () => {
-    const myDmg = process.cwd() + '/EmeraldWallet.dmg';
-
-    dmg.mount(myDmg, (err, path) => {
-      shell.cp('-R', `${path}/EmeraldWallet.app`, process.cwd() + '/EmeraldWallet.app')
-      dmg.unmount(path, (err) => {
-        console.log(err, 'unmounted');
-      })
-    });
-  });
+Git.Clone('https://github.com/ETCDEVTeam/emerald-wallet.git', `${__dirname}/emerald-wallet`).then(() => {
+  console.log('cloned');
+  shell.cd(`${__dirname}/emerald-wallet`);
+  shell.exec('npm install');
+  shell.exec('npm run dist');
+  console.log('done cloning');
+}).catch((e) => {
+  console.log('error cloning', e);
+});
 

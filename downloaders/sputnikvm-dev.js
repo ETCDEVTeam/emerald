@@ -1,6 +1,9 @@
 const request = require('request');
 const tar = require('tar');
-const extract = tar.x();
+const path = require('path');
+const extract = tar.x({
+  cwd: path.resolve(__dirname, '../')
+});
 
 console.log('downloading and unpacking sputnikvm-dev please wait...');
 
