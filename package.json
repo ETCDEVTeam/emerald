@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf emerald-tool && rm -rf emerald-wallet && rm svmdev",
-    "postinstall": "export APP_VERSION_GIT_TAG=v1.0.0-beta-emerald-cli && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
+    "clean": "rm -rf emerald-tool && rm -rf emerald-wallet && rm -f svmdev",
+    "postinstall": "export APP_VERSION_GIT_TAG=v1.0.0-beta-emerald-cli && npm run clean && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
   },
   "bin": {
     "emerald": "./index.js"
