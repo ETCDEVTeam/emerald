@@ -9,7 +9,7 @@
   },
  "bin": {
     "emerald": "./index.js"
-  }
+  },
   "author": "Shane Jonas",
   "dependencies": {
     "caporal": "^0.10.0",
