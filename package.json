@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "APP_VERSION_GIT_TAG=v1.0.0-beta-emerald-cli && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
+    "clean": "rm -rf emerald-tool && rm -rf emerald-wallet && rm svmdev",
+    "postinstall": "export APP_VERSION_GIT_TAG=v1.0.0-beta-emerald-cli && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
   },
- "bin": {
+  "bin": {
     "emerald": "./index.js"
   },
   "author": "Shane Jonas",

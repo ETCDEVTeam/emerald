@@ -29,7 +29,7 @@ prog
 
   .command('testrpc', 'Run testnet for ethereum classic')
   .action((args, options, logger) => {
-    if (shell.exec('./svmdev') !== 0) {
+    if (shell.exec(`${__dirname}/svmdev`) !== 0) {
       logger.error('failed to launch testrpc')
     };
   })

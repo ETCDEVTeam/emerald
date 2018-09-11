@@ -2,7 +2,7 @@ const shell = require('shelljs');
 const Git = require("nodegit");
 const path = require('path');
 
-console.log('downloading and unpacking emerald-wallet please wait...');
+console.log('downloading and unpacking emerald-explorer please wait...');
 const p = path.resolve(__dirname, '../emerald-tool');
 
 Git.Clone('https://github.com/ETCDEVTeam/emerald-tool.git#fix/emerald-js-ui-material-one', p).then(() => {
