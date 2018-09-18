@@ -22,7 +22,7 @@ prog
   .command('explorer', 'Boot Explorer')
   .action((args, options, logger) => {
     shell.cd(`${__dirname}/emerald-tool`);
-    shell.exec(`${__dirname}/node_modules/.bin/yarn start:browser`);
+    shell.exec(`${__dirname}/node_modules/.bin/lerna run --stream start --scope emerald-tool-browser --include-filtered-dependencies`);
     if (shell.exec('open http://localhost:3000/blocks') !== 0) {
       logger.error('failed to launch explorer')
     };
