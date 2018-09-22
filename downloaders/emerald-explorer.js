@@ -1,11 +1,12 @@
 const shell = require('shelljs');
 const Git = require("nodegit");
 const path = require('path');
+const os = require('os');
 
 console.log('downloading and unpacking emerald-explorer please wait...');
-const p = path.resolve(__dirname, '../emerald-tool');
+const p = path.resolve(__dirname, '../emerald-explorer');
 
-Git.Clone('https://github.com/ETCDEVTeam/emerald-tool.git#fix/emerald-js-ui-material-one', p).then(() => {
+Git.Clone('https://github.com/ETCDEVTeam/emerald-explorer.git#fix/emerald-js-ui-material-one', p).then(() => {
   console.log('cloned');
   shell.cd(p);
   if (shell.exec('git checkout fix/emerald-js-ui-material-one').code !== 0) {

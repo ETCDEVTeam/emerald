@@ -1,6 +1,13 @@
 const shell = require('shelljs');
 const Git = require("nodegit");
 const path = require('path');
+const os = require('os');
+
+const platform = os.platform()
+
+if (platform !== 'darwin') {
+  return console.log('platform not yet supported for emerald wallet');
+}
 
 console.log('downloading and unpacking emerald-wallet please wait...');
 const p = path.resolve(__dirname, '../emerald-wallet');
