@@ -38,7 +38,7 @@ prog
   .command('graphql', 'Run graphql server')
   .action((args, options, logger) => {
     shell.cd(`${__dirname}/ethql`);
-    shell.exec('npm run dev');
+    shell.exec('npm run dev -- --jsonrpc=http://localhost:8545');
   })
 
   .command('deploy', 'Deploy solidity to network')
