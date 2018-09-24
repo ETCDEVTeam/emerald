@@ -35,6 +35,12 @@ prog
     };
   })
 
+  .command('graphql', 'Run graphql server')
+  .action((args, options, logger) => {
+    shell.cd(`${__dirname}/ethql`);
+    shell.exec('npm run dev');
+  })
+
   .command('deploy', 'Deploy solidity to network')
   .action((args, options, logger) => {
     migrate.run({working_directory: process.cwd()}, (err) => {
