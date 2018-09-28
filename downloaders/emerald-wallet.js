@@ -15,7 +15,6 @@ const p = path.resolve(__dirname, '../emerald-wallet');
 Git.Clone('https://github.com/ETCDEVTeam/emerald-wallet.git', p).then(() => {
   console.log('cloned');
   shell.cd(p);
-  shell.exec('git checkout feature/protocol-flow');
   shell.exec('npm install');
   shell.exec('npm run getemerald');
   shell.exec('npm run dist');
