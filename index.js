@@ -10,7 +10,7 @@ prog
   .command('new', 'Create a new project')
   .action(async (args, options, logger) => {
     const dir = (args.length > 0) ? args[0] : process.cwd();
-    await truffleBox.unbox('https://github.com/BelfordZ/emerald-starter-kit.git', dir, {logger})
+    await truffleBox.unbox('https://github.com/ETCDEVTeam/emerald-starter-kit.git', dir, {logger})
     logger.info('New Emerald project created');
   })
 
