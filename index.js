@@ -22,7 +22,7 @@ prog
     case 'darwin':
       return shell.exec(`open ${__dirname}/EmeraldWallet.app`);
     case 'linux':
-      return shell.exec(`open ${__dirname}/EmeraldWallet.app`);
+      return shell.exec(`${__dirname}/EmeraldWallet.AppImage`);
     }
   })
 
