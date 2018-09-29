@@ -3,7 +3,9 @@ const prog = require('caporal');
 const truffleBox = require('truffle-box');
 const migrate = require('truffle-core/lib/commands/migrate');
 const shell = require('shelljs');
+const os = require('os');
 
+const platform = os.platform();
 prog
   .version('0.0.1')
 
@@ -16,7 +18,12 @@ prog
 
   .command('wallet', 'Boot Emerald Wallet')
   .action((args, options, logger) => {
-    shell.exec(`open ${__dirname}/emerald-wallet/dist/mac/EmeraldWallet.app`);
+    switch (platform) {
+    case 'darwin':
+      return shell.exec(`open ${__dirname}/EmeraldWallet.app`);
+    case 'linux':
+      return shell.exec(`open ${__dirname}/EmeraldWallet.app`);
+    }
   })
 
   .command('explorer', 'Boot Explorer')
@@ -43,6 +50,16 @@ prog
       }
       logger.info('migrated');
     });
+  })
+
+  .command('update', 'Update emerald to latest version')
+  .action((args, options, logger) => {
+    if (shell.exec('git pull origin master') !== 0) {
+      logger.error('failed to get latest emerald')
+    };
+    if (shell.exec('npm install .') !== 0) {
+      logger.error('failed to npm install latest emerald')
+    };
   })
 
 prog.parse(process.argv);

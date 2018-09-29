@@ -1,6 +1,8 @@
 svmdev
 .DS_Store
+.#*
 node_modules
+EmeraldWallet.AppImage
 EmeraldWallet.app
 EmeraldWallet.dmg
 emerald-wallet
