@@ -10,11 +10,10 @@ const extract = tar.x({
   cwd: path.resolve(__dirname, '../')
 });
 
-
-const spinner = ora('Downloading and Unpacking emerald-wallet');
+const spinner = ora('emerald-wallet: Downloading and Unpacking');
 spinner.start();
 
-const platform = os.platform()
+const platform = os.platform();
 const rootPath = path.resolve(__dirname, '../');
 
 switch (platform) {
@@ -31,7 +30,7 @@ switch (platform) {
             if (err) {
               return spinner.fail(`An error occurred: ${JSON.stringify(err)}`);
             }
-            spinner.succeed('finished downloading emerald-wallet');
+            spinner.succeed('emerald-wallet: finished installation');
           });
         });
       });
@@ -40,12 +39,12 @@ switch (platform) {
     return request('http://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-linux-x86_64-v1.0.0+53-24bb0c9.AppImage')
       .pipe(linuxFile)
       .on('finish', () => {
-        shell.exec('chmod u+x EmeraldWallet.AppImage');
-        spinner.succeed('finished downloading emerald-wallet');
+        shell.exec(`chmod u+x ${path.resolve(rootPath, 'EmeraldWallet.AppImage')}`);
+        spinner.succeed('emerald-wallet: finished installation');
       });
   case 'win32':
     const windowsFile = fs.createWriteStream(path.resolve(rootPath, 'EmeraldWallet.exe'));
     return request('http://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-win-v1.0.0+53-24bb0c9.exe').pipe(windowsFile).on('finish', () => {
-      spinner.succeed('finished downloading emerald-wallet');
+      spinner.succeed('emerald-wallet: finished installation');
     });
 }
