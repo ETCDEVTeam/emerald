@@ -1,12 +1,12 @@
 {
   "name": "emerald",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf emerald-tool && rm -rf emerald-wallet && rm -f svmdev",
-    "postinstall": "export APP_VERSION_GIT_TAG=v1.0.0-beta-emerald-cli && npm run clean && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
+    "clean:deps": "rimraf emerald-explorer EmeraldWallet.app EmeraldWallet.dmg svmdev EmeraldWallet.AppImage EmeraldWallet.exe",
+    "postinstall": "npm run clean:deps && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
   },
   "bin": {
     "emerald": "./index.js"
@@ -17,12 +17,16 @@
     "dmg": "^0.1.0",
     "lerna": "^3.3.0",
     "nodegit": "^0.22.2",
+    "opn": "^5.4.0",
+    "ora": "^3.0.0",
     "request": "^2.88.0",
+    "rimraf": "^2.6.2",
     "shelljs": "^0.8.2",
     "tar": "^4.4.6",
     "truffle-box": "^1.0.7",
     "truffle-config": "^1.0.6",
     "truffle-core": "^4.1.14",
+    "unzip": "^0.1.11",
     "yarn": "^1.9.4"
   }
 }
