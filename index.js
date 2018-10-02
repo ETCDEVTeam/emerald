@@ -8,7 +8,7 @@ const opn = require('opn');
 
 const platform = os.platform();
 prog
-  .version('0.0.1')
+  .version('0.0.2')
 
   .command('new', 'Create a new project')
   .action(async (args, options, logger) => {

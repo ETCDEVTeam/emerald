@@ -36,7 +36,7 @@ switch (platform) {
       });
   case 'linux':
     const linuxFile = fs.createWriteStream(path.resolve(rootPath, 'EmeraldWallet.AppImage'));
-    return request('http://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-linux-x86_64-v1.0.0+53-24bb0c9.AppImage')
+    return request(https://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-linux-x86_64-v1.0.0+55-e427cf9.AppImage)
       .pipe(linuxFile)
       .on('finish', () => {
         shell.exec(`chmod u+x ${path.resolve(rootPath, 'EmeraldWallet.AppImage')}`);
@@ -44,7 +44,7 @@ switch (platform) {
       });
   case 'win32':
     const windowsFile = fs.createWriteStream(path.resolve(rootPath, 'EmeraldWallet.exe'));
-    return request('http://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-win-v1.0.0+53-24bb0c9.exe').pipe(windowsFile).on('finish', () => {
+      return request('https://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-win-v1.0.0+55-e427cf9.exe').pipe(windowsFile).on('finish', () => {
       spinner.succeed('emerald-wallet: finished installation');
     });
 }
