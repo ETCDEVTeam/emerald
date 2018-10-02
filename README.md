@@ -1,5 +1,16 @@
 # Emerald Framework
 
+
+### Installation:
+
+```
+npm install -g https://github.com/ETCDEVTeam/emerald.git
+```
+
+
+
+### Usage:
+
 ```
    USAGE
 
