@@ -17,6 +17,21 @@ prog
     logger.info('New Emerald project created');
   })
 
+  .command('testrpc', 'Run testnet for ethereum classic')
+  .action((args, options, logger) => {
+    switch (platform) {
+    case 'darwin':
+    case 'linux':
+      if (shell.exec(`${__dirname}/svmdev`) !== 0) {
+        logger.error('failed to launch testrpc')
+      };
+    case 'win32':
+      if (shell.exec(`${__dirname}/svmdev.exe`) !== 0) {
+        logger.error('failed to launch testrpc')
+      };
+    }
+  })
+
   .command('wallet', 'Boot Emerald Wallet')
   .action((args, options, logger) => {
     switch (platform) {
@@ -34,21 +49,6 @@ prog
     shell.cd(`${__dirname}/emerald-explorer`);
     shell.exec(`${__dirname}/node_modules/.bin/lerna run --stream start --scope emerald-tool-browser --include-filtered-dependencies`);
     opn('http://localhost:3000/blocks');
-  })
-
-  .command('testrpc', 'Run testnet for ethereum classic')
-  .action((args, options, logger) => {
-    switch (platform) {
-      case 'darwin':
-      case 'linux':
-        if (shell.exec(`${__dirname}/svmdev`) !== 0) {
-          logger.error('failed to launch testrpc')
-        };
-      case 'win32':
-        if (shell.exec(`${__dirname}/svmdev.exe`) !== 0) {
-          logger.error('failed to launch testrpc')
-        };
-    }
   })
 
   .command('deploy', 'Deploy solidity to network')
