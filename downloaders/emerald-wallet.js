@@ -36,7 +36,7 @@ switch (platform) {
       });
   case 'linux':
     const linuxFile = fs.createWriteStream(path.resolve(rootPath, 'EmeraldWallet.AppImage'));
-    return request(https://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-linux-x86_64-v1.0.0+55-e427cf9.AppImage)
+    return request('https://builds.etcdevteam.com/emerald-wallet/v1.0.x/EmeraldWallet-linux-x86_64-v1.0.0+55-e427cf9.AppImage')
       .pipe(linuxFile)
       .on('finish', () => {
         shell.exec(`chmod u+x ${path.resolve(rootPath, 'EmeraldWallet.AppImage')}`);
