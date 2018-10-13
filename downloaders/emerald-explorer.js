@@ -1,9 +1,10 @@
 const shell = require('shelljs');
-const Git = require("nodegit");
 const path = require('path');
 const os = require('os');
 const util = require('util');
 const ora = require('ora');
+const tmp = require('tmp');
+const ghdownload = require('github-download')
 
 const spinner = ora('emerald-explorer: Downloading and Unpacking');
 const exec = util.promisify(shell.exec);
@@ -14,16 +15,23 @@ const p = path.resolve(__dirname, '../emerald-explorer');
 
 const options = { silent: true, async: true };
 
+
 const download = async () => {
-  try {
-    await Git.Clone('https://github.com/ETCDEVTeam/emerald-explorer.git#fix/emerald-js-ui-material-one', p);
-  } catch (e) {
-    spinner.fail('emerald-explorer: error cloning ETCDEVTeam/emerald-explorer');
-  }
+  const tmpobj = tmp.dirSync();
+  console.log('tmp', tmpobj);
 
   try {
-    shell.cd(p);
-    await exec('git checkout fix/emerald-js-ui-material-one', options);
+    await new Promise((resolve, reject) => {
+      ghdownload({user: 'ETCDEVTeam', repo: 'emerald-explorer', ref: 'master'}, tmpobj.name)
+        .on('err', (e) => {
+          reject(e)
+        })
+        .on('end', () => {
+          shell.mkdir('-p', p);
+          shell.mv(`${tmpobj.name}/*`, p);
+          resolve();
+        });
+    })
   } catch (e) {
     return spinner.fail('emerald-explorer: Could not checkout specific branch');
   }
@@ -32,9 +40,10 @@ const download = async () => {
   const rootDir = path.resolve(__dirname, '../node_modules/.bin');
 
   try {
+    shell.cd(p);
     await exec(`${rootDir}/lerna bootstrap`, options);
   } catch (e) {
-    return spinner.fail('emerald-explorer: Could not lerna bootstrap');
+    return spinner.fail(`emerald-explorer: Could not lerna bootstrap ERROR: ${JSON.stringify(e)}`);
   }
 
 
