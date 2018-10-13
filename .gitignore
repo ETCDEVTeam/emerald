@@ -1,10 +1,15 @@
 svmdev
+svmdev.exe
 .DS_Store
 .#*
 node_modules
 EmeraldWallet.AppImage
 EmeraldWallet.app
 EmeraldWallet.dmg
+EmeraldWallet.exe
+emerald-vault
+emerald-vault.exe
 emerald-wallet
 emerald-explorer
 emerald-tool
+solc.js
