@@ -29,7 +29,7 @@ switch (platform) {
       spinner.succeed('emerald-vault: finished installation')
     });
   case 'win32': 
-    return request('http://builds.etcdevteam.com/emerald-cli/v0.22.x/emerald-stable-x86_64-pc-windows-msvc-v0.22.0+11-c210192.zip').pipe(unzip.Extract({ path: path.resolve(__dirname, '../') })).on('end', () => {
+    return request('http://builds.etcdevteam.com/emerald-cli/v0.22.x/emerald-stable-x86_64-pc-windows-msvc-v0.22.0+11-c210192.zip').pipe(unzip.Extract({ path: p })).on('end', () => {
       shell.mv(path.resolve(p, 'emerald.exe'), path.resolve(p, 'emerald-vault.exe'))
       spinner.succeed('emerald-vault: finished installation')
     });

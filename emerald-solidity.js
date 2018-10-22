@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const shell = require('shelljs');
 let solc = require('solc');
 
 function getFiles() {
@@ -65,6 +66,7 @@ module.exports = () => {
       networks: {},
       updatedAt: new Date().toISOString()
     };
+    shell.mkdir('-p', path.resolve(process.cwd(), 'build/contracts'));
     fs.writeFileSync(p, JSON.stringify(artifact, null, 2), 'utf8');
   };
 
