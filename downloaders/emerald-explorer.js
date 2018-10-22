@@ -18,7 +18,6 @@ const options = { silent: true, async: true };
 
 const download = async () => {
   const tmpobj = tmp.dirSync();
-  console.log('tmp', tmpobj);
 
   try {
     await new Promise((resolve, reject) => {

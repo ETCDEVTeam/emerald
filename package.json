@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rimraf emerald-explorer EmeraldWallet.app EmeraldWallet.dmg svmdev EmeraldWallet.AppImage EmeraldWallet.exe",
-    "postinstall": "npm run clean && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer"
+    "clean": "rimraf emerald-explorer EmeraldWallet.app EmeraldWallet.dmg svmdev EmeraldWallet.AppImage EmeraldWallet.exe solc.js emerald-vault",
+    "postinstall": "npm run clean && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer.js && node downloaders/solc.js && node downloaders/emerald-vault"
   },
   "bin": {
     "emerald": "./index.js"

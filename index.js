@@ -13,11 +13,7 @@ const EmeraldJs = require('emerald-js');
 const Wallet = EmeraldJs.Wallet;
 const ghdownload = require('github-download')
 const { JsonRpc, HttpTransport, Vault, VaultJsonRpcProvider } = require('emerald-js');
-
-const vault = new Vault(new VaultJsonRpcProvider(new JsonRpc(new HttpTransport('http://127.0.0.1:1920'))));
-
 const platform = os.platform();
-
 
 const commands = {
   vault() {
@@ -34,8 +30,6 @@ const commands = {
     return e;
   }
 }
-
-
 
 prog
   .version('0.0.2')
@@ -94,6 +88,7 @@ prog
           }
         }
       }).filter(i => i);
+      const vault = new Vault(new VaultJsonRpcProvider(new JsonRpc(new HttpTransport('http://127.0.0.1:1920'))));
       const promises = group.map(({keyfileData}) => {
         return vault.importAccount(keyfileData, 'mainnet');
       });
