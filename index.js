@@ -59,6 +59,7 @@ prog
   })
 
   .command('testrpc', 'Run testnet for ethereum classic')
+  .argument('[passphrase]', 'passphrase to use for adding private keys to vault')
   .action((args, options, logger) => {
     let e;
     switch (platform) {
@@ -70,7 +71,7 @@ prog
         e = shell.exec(`${__dirname}/svmdev.exe`, {async: true})
         break
     }
-    e.stdout.on('data', function(data) {
+    e.stdout.once('data', function(data) {
       const lines = data.split('\n');
       const group = lines.map((line, i) => {
         if (i % 2 === 0) {
@@ -78,7 +79,8 @@ prog
         } else {
           const address = lines[i - 1].split('address: ')[1];
           const privateKey = lines[i].split('private key: ')[1];
-          const keyfile = Wallet.fromPrivateKey(privateKey).toV3String("");
+          console.log('importing private key to vault:', privateKey);
+          const keyfile = Wallet.fromPrivateKey(privateKey).toV3String(args.passphrase || "");
           const keyfileData = Object.assign(JSON.parse(keyfile), {
             name: 'emerald-testrpc',
             description: 'a test account for emerald testrpc'
@@ -92,9 +94,7 @@ prog
       const promises = group.map(({keyfileData}) => {
         return vault.importAccount(keyfileData, 'mainnet');
       });
-      Promise.all(promises).then(() => {
-        console.log('imported wallets to emerald-vault');
-      }).catch((e) => {
+      Promise.all(promises).catch((e) => {
         console.log('error importing wallets to emerald-vault', e);
       })
     });
@@ -106,7 +106,7 @@ prog
       case 'darwin':
         return shell.exec(`open ${__dirname}/EmeraldWallet.app`);
       case 'linux':
-        return shell.exec(`${__dirname}/EmeraldWallet-linux-x64-v1.1.0-cfb48df/emeraldwallet`);
+        return shell.exec(`${__dirname}/EmeraldWallet-linux-x64-v1.1.0+2-14915df/emeraldwallet`);
       case 'win32':
         return shell.exec(`${__dirname}/EmeraldWallet.exe`);
     }

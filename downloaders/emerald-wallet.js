@@ -17,9 +17,9 @@ const platform = os.platform();
 const rootPath = path.resolve(__dirname, '../');
 
 const platformBuilds = {
-  mac: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-mac-v1.1.0-cfb48df.dmg',
-  linux: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-linux-x64-v1.1.0-cfb48df.tar.gz',
-  windows: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-win-v1.1.0-cfb48df.exe'
+  mac: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-mac-v1.1.0+2-14915df.dmg',
+  linux: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-linux-x64-v1.1.0+2-14915df.tar.gz',
+  windows: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-win-v1.1.0+2-14915df.exe'
 }
 
 switch (platform) {
