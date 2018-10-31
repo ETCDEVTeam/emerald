@@ -2,7 +2,7 @@
 
 Emerald CLI encapsulates all the best Emerald tools with smart contract testing and deployment capabilities.
 
-## [Emerald CLI Documentation](https://docs.etcdevteam.com/emerald-platform/emerald)
+### [Emerald CLI Documentation](https://docs.etcdevteam.com/emerald-platform/emerald)
 
 ## Dependencies
 
