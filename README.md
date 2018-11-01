@@ -9,7 +9,7 @@ Emerald CLI encapsulates all the best Emerald tools with smart contract testing 
 - [nodenv](https://github.com/nodenv/nodenv)
 - [node-build](https://github.com/nodenv/node-build#readme)
 
-## Installation:
+## Install:
 
 ```
 $ npm install -g https://github.com/ETCDEVTeam/emerald.git
