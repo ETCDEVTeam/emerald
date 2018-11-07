@@ -25,7 +25,7 @@ switch (platform) {
       });
   case 'linux': 
     return request('http://builds.etcdevteam.com/emerald-cli/v0.22.x/emerald-cli-linux-v0.22.0+11-c210192.tar.gz').pipe(extract).on('end', () => {
-      shell.mv(path.resolve(p, 'emerald'), path.resolve(p, 'emerald-vault'))
+      shell.mv(path.resolve(p, 'target/release/emerald'), path.resolve(p, 'emerald-vault'))
       spinner.succeed('emerald-vault: finished installation')
     });
   case 'win32': 
