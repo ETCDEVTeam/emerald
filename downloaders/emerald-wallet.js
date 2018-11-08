@@ -40,6 +40,7 @@ switch (platform) {
     return request(platformBuilds.linux)
       .pipe(linuxFile)
       .on('finish', () => {
+        shell.exec(`chmod u+x ${path.resolve(rootPath, 'EmeraldWallet.AppImage')}`);
         spinner.succeed('emerald-wallet: finished installation');
       });
   case 'win32':
