@@ -106,7 +106,7 @@ prog
       case 'darwin':
         return shell.exec(`open ${__dirname}/EmeraldWallet.app`);
       case 'linux':
-        return shell.exec(`${__dirname}/EmeraldWallet-linux-x64-v1.1.0+2-14915df/emeraldwallet`);
+        return shell.exec(`${__dirname}/EmeraldWallet.AppImage`);
       case 'win32':
         return shell.exec(`${__dirname}/EmeraldWallet.exe`);
     }

@@ -1,15 +1,10 @@
 const request = require('request');
-const tar = require('tar');
 const path = require('path');
 const fs = require('fs');
 const dmg = require('dmg');
 const shell = require('shelljs');
 const os = require('os');
 const ora = require('ora');
-const extract = tar.x({
-  cwd: path.resolve(__dirname, '../')
-});
-
 const spinner = ora('emerald-wallet: Downloading and Unpacking');
 spinner.start();
 
@@ -17,9 +12,9 @@ const platform = os.platform();
 const rootPath = path.resolve(__dirname, '../');
 
 const platformBuilds = {
-  mac: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-mac-v1.1.0+2-14915df.dmg',
-  linux: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-linux-x64-v1.1.0+2-14915df.tar.gz',
-  windows: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-win-v1.1.0+2-14915df.exe'
+  mac: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-mac-v1.1.0+4-e682346.dmg',
+  linux: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-linux-x86_64-v1.1.0+4-e682346.AppImage',
+  windows: 'http://builds.etcdevteam.com/emerald-wallet/v1.1.x/EmeraldWallet-win-v1.1.0+4-e682346.exe'
 }
 
 switch (platform) {
@@ -41,9 +36,11 @@ switch (platform) {
         });
       });
   case 'linux':
+    const linuxFile = fs.createWriteStream(path.resolve(rootPath, 'EmeraldWallet.AppImage'))
     return request(platformBuilds.linux)
-      .pipe(extract)
+      .pipe(linuxFile)
       .on('finish', () => {
+        shell.exec(`chmod u+x ${path.resolve(rootPath, 'EmeraldWallet.AppImage')}`);
         spinner.succeed('emerald-wallet: finished installation');
       });
   case 'win32':
