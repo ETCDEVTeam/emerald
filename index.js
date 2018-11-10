@@ -42,7 +42,7 @@ prog
       const tmpobj = tmp.dirSync();
       ghdownload({user: 'ETCDEVTeam', repo: 'emerald-starter-kit', ref: 'master'}, tmpobj.name)
         .on('err', (e) => {
-          console.log('err', e)
+          logger.debug('err', e)
           spinner.fail('failed to create ${JSON.stringify(e)}');
         })
         .on('end', () => {
@@ -79,7 +79,7 @@ prog
         } else {
           const address = lines[i - 1].split('address: ')[1];
           const privateKey = lines[i].split('private key: ')[1];
-          console.log('importing private key to vault:', privateKey);
+          logger.debug('before: import private key to vault:', privateKey);
           const keyfile = Wallet.fromPrivateKey(privateKey).toV3String(args.passphrase || "");
           const keyfileData = Object.assign(JSON.parse(keyfile), {
             name: 'emerald-testrpc',
@@ -95,7 +95,7 @@ prog
         return vault.importAccount(keyfileData, 'mainnet');
       });
       Promise.all(promises).catch((e) => {
-        console.log('error importing wallets to emerald-vault', e);
+        logger.debug('error importing wallets to emerald-vault', e);
       })
     });
   })
@@ -119,7 +119,7 @@ prog
     opn('http://localhost:3000/blocks');
   })
 
-  .command('compile', 'Compile solidity for ethereum classic')
+  .command('compile', 'Compile solidity')
   .action((args, options, logger) => {
     const p = path.resolve(process.cwd(), 'build/contracts');
     rimraf(`${p}/*`, (err) => {
@@ -131,10 +131,9 @@ prog
   .action((args, options, logger) => {
     migrate.run({working_directory: process.cwd()}, (err) => {
       if (err) {
-        console.log('e', err)
         return logger.error(err);
       }
-      logger.info('migrated');
+      logger.info('contracts deployed');
     });
   })
 
