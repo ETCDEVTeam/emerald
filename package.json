@@ -15,7 +15,7 @@
   "dependencies": {
     "caporal": "^0.10.0",
     "dmg": "^0.1.0",
-    "emerald-js": "https://github.com/ETCDEVTeam/emerald-js.git",
+    "emerald-js": "https://github.com/ETCDEVTeam/emerald-js.git#tx-uri",
     "github-download": "^0.5.0",
     "lerna": "^3.3.0",
     "opn": "^5.4.0",
