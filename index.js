@@ -136,15 +136,18 @@ prog
 
   .command('deploy', 'Deploy solidity to network')
   .action(async (args, options, logger) => {
-    const artifactFile = await fs.readFile(`${process.cwd()}/build/contracts/Todos.json`, 'utf8');
-    const artifact = JSON.parse(artifactFile);
-    const deployer = new EmeraldDeployer(artifact);
-    try {
-      const result = await deployer.deploy();
-    } catch (e) {
-      console.log('e', err)
-      return logger.error(err);
-    }
+    const allContracts = shell.ls(`${process.cwd()}/build/contracts/**/*.json`).forEach(async (file) => {
+      const artifactFile = await fs.readFile(file, 'utf8');
+      const artifact = JSON.parse(artifactFile);
+      const deployer = new EmeraldDeployer(artifact);
+      try {
+        const result = await deployer.deploy();
+        await deployer.waitUntilDeployed();
+      } catch (e) {
+        console.log('e', e)
+        return logger.error(e);
+      }
+    });
   })
 
 prog.parse(process.argv);

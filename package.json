@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rimraf emerald-explorer EmeraldWallet.app EmeraldWallet.dmg svmdev EmeraldWallet.AppImage EmeraldWallet.exe solc.js emerald-vault",
-    "postinstall": "npm run clean && node downloaders/sputnikvm-dev.js && node downloaders/emerald-wallet.js && node downloaders/emerald-explorer.js && node downloaders/solc-downloader.js && node downloaders/emerald-vault"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "emerald": "./index.js"

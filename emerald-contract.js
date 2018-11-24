@@ -1,38 +1,46 @@
-const { TransactionUri } = require('emerald-js');
+const emeraldjs = require('emerald-js');
 const util = require('ethereumjs-util');
 const opn = require('opn');
+const { JsonRpc, HttpTransport, Vault, EthRpc, VaultJsonRpcProvider} = require('emerald-js');
 
 module.exports = {
   EmeraldDeployer: class EmeraldDeployer {
     constructor(artifact) {
+      this.vault = new Vault(new VaultJsonRpcProvider(new JsonRpc(new HttpTransport('http://127.0.0.1:1920'))));
+      this.ethRpc = new EthRpc(new JsonRpc(new HttpTransport('http://127.0.0.1:8545')));
       this.artifact = artifact;
+      this.constructedTx = null;
     }
 
-    deploy() {
-      console.log(Object.keys(this.artifact));
-      console.log(this.artifact.deployedBytecode);
-
-      // byte code is the data section of the tx
-      console.log(this.artifact.bytecode);
-
-      const randomGasPrice = 4700000;
-
-      const from = '0x556bac12f6a272714333665c04bf468833fafcd3';
+    async deploy() {
+      // configure this somehow
+      // configure this somehow
+      const accounts = await this.vault.listAccounts('mainnet');
+      const from = accounts[0].address;
+      const nextNonce = await this.ethRpc.eth.getTransactionCount(from) + 1;
       const tx = {
-        to: '0x' + util.bufferToHex(util.rlphash([from, 5])).slice(26),
+        to: '0x' + util.bufferToHex(util.rlphash([from, nextNonce])).slice(26),
         from,
-        gas: '3000000',
         method: 'constructor',
         params: [123],
         contractBytecode: this.artifact.bytecode
       };
 
-      const txUri = new TransactionUri(tx, this.artifact.abi);
+      this.constructedTx = tx;
 
-      console.log(txUri.toString());
+      const txUri = new emeraldjs.TransactionUri(tx, this.artifact.abi);
+
       opn(txUri.toString())
         .then(() => {})
         .catch((e) => { console.error(e); });
     }
+
+    async waitUntilDeployed() {
+      const block = await this.ethRpc.eth.getBlock('latest', true);
+      const isInLastBlock = block.transactions.find(tx => tx.to === this.constructedTx.to);
+      console.log(isInLastBlock);
+      setInterval(() => { this.waitUntilDeployed(); }, 3000);
+    }
+
   }
 };
