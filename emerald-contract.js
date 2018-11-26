@@ -1,23 +1,21 @@
-const emeraldjs = require('emerald-js');
 const util = require('ethereumjs-util');
 const opn = require('opn');
 const { until } = require('async');
-const { JsonRpc, HttpTransport, Vault, EthRpc, VaultJsonRpcProvider} = require('emerald-js');
+const { TransactionUri, NodeChecker, JsonRpc, HttpTransport, Vault, EthRpc, VaultJsonRpcProvider} = require('emerald-js');
 
 const vault = new Vault(new VaultJsonRpcProvider(new JsonRpc(new HttpTransport('http://127.0.0.1:1920'))));
-const eth = new EthRpc(new JsonRpc(new HttpTransport('http://127.0.0.1:8545'))).eth;
-
+const ethRpc = new EthRpc(new JsonRpc(new HttpTransport('http://127.0.0.1:8545')));
+const eth = ethRpc.eth;
+const checker = new NodeChecker(ethRpc);
 const onNewBlock = async (lastBlockNumber) => {
   const block = await eth.getBlock('latest', true);
 
   if (lastBlockNumber === undefined) {
-    lastBlockNumber = block.blockNumber;
+    lastBlockNumber = block.number;
   }
 
   if (lastBlockNumber === block.number) {
-    console.log('ceiangiang');
     return new Promise((resolve) => {
-      console.log('figgtiy');
       setTimeout(async () => resolve(await onNewBlock(lastBlockNumber)), 2000);
     });
   }
@@ -33,9 +31,16 @@ module.exports = {
     }
 
     async deploy() {
-      // configure this somehow
-      // configure this somehow
-      const accounts = await vault.listAccounts('mainnet');
+      let { chain, chainId } = await checker.getChain();
+
+      if (chain === 'unknown') {
+        chain = 'mainnet';
+      }
+
+      this.chain = chain;
+      this.chainId = chainId;
+
+      const accounts = await vault.listAccounts(chain);
       const from = accounts[0].address;
       const nextNonce = await eth.getTransactionCount(from) + 1;
       const tx = {
@@ -48,11 +53,15 @@ module.exports = {
 
       this.constructedTx = tx;
 
-      const txUri = new emeraldjs.TransactionUri(tx, this.artifact.abi);
+      const txUri = new TransactionUri(tx, this.artifact.abi);
 
       opn(txUri.toString())
         .then(() => {})
         .catch((e) => { console.error(e); });
+    }
+
+    async store() {
+      vault.importContract(this.constructedTx.to, this.artifact.contractName, this.artifact.abi, this.chainId);
     }
 
     async waitUntilDeployed() {

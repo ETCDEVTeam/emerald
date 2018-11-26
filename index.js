@@ -138,24 +138,30 @@ prog
 
   .command('deploy', 'Deploy solidity to network')
   .action((args, options, logger) => {
-    return new Promise((resolve) => {
-      const files = shell.ls(`${process.cwd()}/build/contracts/**/*.json`).concat([]);
+    const files = shell.ls(`${process.cwd()}/build/contracts/**/*.json`).concat([]);
 
-      const nips = eachSeries(files, async (file) => {
-        console.log('deploying');
-        const artifactFile = await fs.readFile(file, 'utf8');
-        const artifact = JSON.parse(artifactFile);
-        const deployer = new EmeraldDeployer(artifact);
-        try {
-          const result = await deployer.deploy();
-          const block = await deployer.waitUntilDeployed();
-          console.log('deployed!');
-          return;
-        } catch (e) {
-          console.log('e', e)
-          return logger.error(e);
-        }
-      }, resolve);
+    eachSeries(files, async (file) => {
+      const artifactFile = await fs.readFile(file, 'utf8');
+      const artifact = JSON.parse(artifactFile);
+      const deployer = new EmeraldDeployer(artifact);
+      console.log('waddafa');
+      try {
+        const result = await deployer.deploy();
+        const block = await deployer.waitUntilDeployed();
+        console.log('deployed!');
+        return;
+      } catch (e) {
+        console.error(e);
+        process.exit(1);
+      }
+    }, (err) => {
+      console.log('done');
+
+      if (err) {
+        console.error(err);
+      }
+
+      process.exit(0);
     });
   })
 
