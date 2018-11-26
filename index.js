@@ -144,7 +144,6 @@ prog
       const artifactFile = await fs.readFile(file, 'utf8');
       const artifact = JSON.parse(artifactFile);
       const deployer = new EmeraldDeployer(artifact);
-      console.log('waddafa');
       try {
         const result = await deployer.deploy();
         const block = await deployer.waitUntilDeployed();
