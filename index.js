@@ -16,6 +16,8 @@ const { JsonRpc, HttpTransport, Vault, VaultJsonRpcProvider } = require('emerald
 const platform = os.platform();
 const { EmeraldDeployer } = require('./emerald-contract');
 
+const {eachSeries} = require('async');
+
 const {promisify} = require('util');
 const _fs = require('fs');
 const fs = {
@@ -135,18 +137,25 @@ prog
   })
 
   .command('deploy', 'Deploy solidity to network')
-  .action(async (args, options, logger) => {
-    const allContracts = shell.ls(`${process.cwd()}/build/contracts/**/*.json`).forEach(async (file) => {
-      const artifactFile = await fs.readFile(file, 'utf8');
-      const artifact = JSON.parse(artifactFile);
-      const deployer = new EmeraldDeployer(artifact);
-      try {
-        const result = await deployer.deploy();
-        await deployer.waitUntilDeployed();
-      } catch (e) {
-        console.log('e', e)
-        return logger.error(e);
-      }
+  .action((args, options, logger) => {
+    return new Promise((resolve) => {
+      const files = shell.ls(`${process.cwd()}/build/contracts/**/*.json`).concat([]);
+
+      const nips = eachSeries(files, async (file) => {
+        console.log('deploying');
+        const artifactFile = await fs.readFile(file, 'utf8');
+        const artifact = JSON.parse(artifactFile);
+        const deployer = new EmeraldDeployer(artifact);
+        try {
+          const result = await deployer.deploy();
+          const block = await deployer.waitUntilDeployed();
+          console.log('deployed!');
+          return;
+        } catch (e) {
+          console.log('e', e)
+          return logger.error(e);
+        }
+      }, resolve);
     });
   })
 

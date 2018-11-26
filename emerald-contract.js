@@ -15,7 +15,11 @@ const onNewBlock = async (lastBlockNumber) => {
   }
 
   if (lastBlockNumber === block.number) {
-    return await onNewBlock(lastBlockNumber);
+    console.log('ceiangiang');
+    return new Promise((resolve) => {
+      console.log('figgtiy');
+      setTimeout(async () => resolve(await onNewBlock(lastBlockNumber)), 2000);
+    });
   }
 
   return block;
@@ -52,11 +56,17 @@ module.exports = {
     }
 
     async waitUntilDeployed() {
-      let block;
-      return await until(
-        () => block && block.transactions.find(tx => tx.to === this.constructedTx.to),
-        async () => block = await onNewBlock()
-      );
+      return new Promise((resolve, reject) => {
+        let block;
+        until(
+          () => block && block.transactions.find(tx => tx.to === this.constructedTx.to),
+          async () => block = await onNewBlock(),
+          (err, result) => {
+            if (err) { reject(err); }
+            else { resolve(block); }
+          }
+        );
+      });
     }
   }
 };
