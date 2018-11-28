@@ -44,11 +44,11 @@ module.exports = {
       const from = accounts[0].address;
       const nextNonce = await eth.getTransactionCount(from) + 1;
       const tx = {
-        to: '0x' + util.bufferToHex(util.rlphash([from, nextNonce])).slice(26),
+        to: '0',
         from,
         mode: 'contract_constructor',
-        gasLimit: 210000,
-        contractBytecode: this.artifact.bytecode
+        gas: 6000000,
+        data: this.artifact.bytecode
       };
 
       this.constructedTx = tx;
