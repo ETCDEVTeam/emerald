@@ -46,8 +46,8 @@ module.exports = {
       const tx = {
         to: '0x' + util.bufferToHex(util.rlphash([from, nextNonce])).slice(26),
         from,
-        method: 'constructor',
-        params: [123],
+        mode: 'contract_constructor',
+        gasLimit: 210000,
         contractBytecode: this.artifact.bytecode
       };
 
