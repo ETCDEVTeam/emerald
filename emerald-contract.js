@@ -38,7 +38,7 @@ module.exports = {
       }
 
       this.chain = chain;
-      this.chainId = chainId;
+      this.chainId = await ethRpc.net.version();
 
       const accounts = await vault.listAccounts(chain);
       const from = accounts[0].address;
@@ -72,7 +72,7 @@ module.exports = {
           async () => block = await onNewBlock(),
           (err, result) => {
             if (err) { reject(err); }
-            else { resolve(block); }
+            else { resolve(block.transactions.find(tx => tx.to === this.constructedTx.to)); }
           }
         );
       });

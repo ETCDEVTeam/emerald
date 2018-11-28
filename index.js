@@ -21,7 +21,8 @@ const {eachSeries} = require('async');
 const {promisify} = require('util');
 const _fs = require('fs');
 const fs = {
-  readFile: promisify(_fs.readFile)
+  readFile: promisify(_fs.readFile),
+  writeFile: promisify(_fs.writeFile)
 };
 
 const commands = {
@@ -146,8 +147,13 @@ prog
       const deployer = new EmeraldDeployer(artifact);
       try {
         const result = await deployer.deploy();
-        const block = await deployer.waitUntilDeployed();
-        console.log('deployed!');
+        const transaction = await deployer.waitUntilDeployed();
+        artifact.networks[deployer.chainId] = {
+          ...artifact.networks[deployer.chainId],
+          address: deployer.constructedTx.to,
+          transactionHash: transaction.hash
+        }
+        await fs.writeFile(file, JSON.stringify(artifact, null, 4), 'utf8');
         return;
       } catch (e) {
         console.error(e);
