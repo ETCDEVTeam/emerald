@@ -14,7 +14,7 @@
     "async": "^2.6.1",
     "caporal": "^0.10.0",
     "dmg": "^0.1.0",
-    "emerald-js": "https://github.com/ETCDEVTeam/emerald-js.git#tx-uri",
+    "emerald-js": "https://github.com/ETCDEVTeam/emerald-js.git",
     "github-download": "^0.5.0",
     "lerna": "^3.3.0",
     "opn": "^5.4.0",
