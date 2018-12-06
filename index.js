@@ -14,6 +14,16 @@ const Wallet = EmeraldJs.Wallet;
 const ghdownload = require('github-download')
 const { JsonRpc, HttpTransport, Vault, VaultJsonRpcProvider } = require('emerald-js');
 const platform = os.platform();
+const { EmeraldDeployer } = require('./emerald-contract');
+
+const {eachSeries} = require('async');
+
+const {promisify} = require('util');
+const _fs = require('fs');
+const fs = {
+  readFile: promisify(_fs.readFile),
+  writeFile: promisify(_fs.writeFile)
+};
 
 const commands = {
   vault() {
@@ -129,11 +139,34 @@ prog
 
   .command('deploy', 'Deploy solidity to network')
   .action((args, options, logger) => {
-    migrate.run({working_directory: process.cwd()}, (err) => {
-      if (err) {
-        return logger.error(err);
+    const files = shell.ls(`${process.cwd()}/build/contracts/**/*.json`).concat([]);
+
+    eachSeries(files, async (file) => {
+      const artifactFile = await fs.readFile(file, 'utf8');
+      const artifact = JSON.parse(artifactFile);
+      const deployer = new EmeraldDeployer(artifact);
+      try {
+        const result = await deployer.deploy();
+        const transaction = await deployer.waitUntilDeployed();
+        artifact.networks[deployer.chainId] = {
+          ...artifact.networks[deployer.chainId],
+          address: deployer.constructedTx.to,
+          transactionHash: transaction.hash
+        }
+        await fs.writeFile(file, JSON.stringify(artifact, null, 4), 'utf8');
+        return;
+      } catch (e) {
+        console.error(e);
+        process.exit(1);
       }
-      logger.info('contracts deployed');
+    }, (err) => {
+      console.log('done');
+
+      if (err) {
+        console.error(err);
+      }
+
+      process.exit(0);
     });
   })
 

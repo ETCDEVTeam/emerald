@@ -13,6 +13,7 @@
   },
   "author": "Shane Jonas",
   "dependencies": {
+    "async": "^2.6.1",
     "caporal": "^0.10.0",
     "dmg": "^0.1.0",
     "emerald-js": "https://github.com/ETCDEVTeam/emerald-js.git",
